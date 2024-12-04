@@ -27,9 +27,9 @@ jobs:
 
       - name: Build MkDocs
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          mkdocs gh-deploy --force --remote-name origin --remote-branch gh-pages
+          mkdocs gh-deploy --force --remote-name origin --remote-branch gh-pages --token ${GH_TOKEN}
 
       - name: Build API docs
         run: |
