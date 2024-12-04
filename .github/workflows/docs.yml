@@ -14,9 +14,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
@@ -26,10 +28,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Build MkDocs
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          mkdocs gh-deploy --force --remote-name origin --remote-branch gh-pages --token ${GH_TOKEN}
+          mkdocs gh-deploy --force --remote-name origin --remote-branch gh-pages
 
       - name: Build API docs
         run: |

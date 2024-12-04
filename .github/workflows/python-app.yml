@@ -28,6 +28,9 @@ jobs:
           pip install flake8 pytest coverage pytest-cov
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)/src" >> $GITHUB_ENV
+
       - name: Lint with flake8
         run: |
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics

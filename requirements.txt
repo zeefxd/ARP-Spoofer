@@ -1,5 +1,7 @@
 pytest
 pytest-cov
+pytest-mock
+scapy
 flake8
 black
 isort
