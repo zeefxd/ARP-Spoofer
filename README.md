@@ -67,7 +67,7 @@ python -m src.main --format json
 python -m src.main -t 192.168.1.10 -g 192.168.1.1 -p "password" "secret" -f html
 ```
 
-📋 **Command Options**
+## 📋 **Command Options**
 
 | Option       | Description           | Default       |
 |--------------|-----------------------|---------------|
@@ -76,7 +76,7 @@ python -m src.main -t 192.168.1.10 -g 192.168.1.1 -p "password" "secret" -f html
 | -p, --patterns| Search patterns      | None          |
 | -f, --format | Export format         | html          |
 
-📁 **Project Structure**
+## 📁 **Project Structure**
 ```
 src/
 ├── core/          # Core functionality
