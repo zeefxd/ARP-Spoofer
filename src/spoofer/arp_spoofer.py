@@ -18,7 +18,7 @@ from rich.panel import Panel
 from src.network.network_utils import get_hostname, display_devices
 from src.utils.logger import setup_logger
 from src.core.exceptions import NetworkException
-from src.types.models import PacketInfo, Device
+from src.models.models import PacketInfo, Device
 from src.utils.validators import validate_ip
 from jinja2 import Environment, FileSystemLoader
 

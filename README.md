@@ -42,29 +42,29 @@ pip install -r requirements.txt
 
 ### Run with default settings
 ```bash
-python -m src.main
+python -m src
 ```
 
 ## 💻 **Usage Examples**
 
 ### Basic Monitoring:
 ```bash
-python -m src.main --target 192.168.1.1
+python -m src --target 192.168.1.1
 ```
 
 ### Pattern Matching:
 ```bash
-python -m src.main --patterns "HTTP,FTP"
+python -m src --patterns "HTTP,FTP"
 ```
 
 ### Custom Export:
 ```bash
-python -m src.main --format json
+python -m src --format json
 ```
 
 ### Example:
 ```bash
-python -m src.main -t 192.168.1.10 -g 192.168.1.1 -p "password" "secret" -f html
+python -m src -t 192.168.1.10 -g 192.168.1.1 -p "password" "secret" -f html
 ```
 
 ## 📋 **Command Options**
@@ -82,7 +82,7 @@ src/
 ├── core/          # Core functionality
 ├── network/       # Network operations
 ├── spoofer/       # ARP implementation
-├── types/         # Data models
+├── models/        # Data models
 └── utils/         # Helper functions
 ```
 

@@ -1,7 +1,7 @@
 import socket
 from rich.table import Table
 from rich.console import Console
-from src.types.models import Device
+from src.models.models import Device
 
 """Network utility functions for device discovery and hostname resolution."""
 
