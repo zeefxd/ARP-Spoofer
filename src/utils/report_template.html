@@ -382,30 +382,38 @@
         let matches = [];
         
         function search() {
-            // Reset previous search
             clearHighlights();
             matches = [];
             currentMatchIndex = -1;
-            
+
             const searchText = document.getElementById('searchInput').value.toLowerCase();
             if (!searchText) return;
-        
+
             const content = document.querySelectorAll('.data-table td');
-            
+
             content.forEach(cell => {
-                const text = cell.innerText.toLowerCase();
-                if (text.includes(searchText)) {
+                const text = cell.textContent;
+                if (text.toLowerCase().includes(searchText)) {
                     const regex = new RegExp(searchText, 'gi');
-                    cell.innerHTML = cell.innerText.replace(regex, match => 
-                        `<span class="highlight">${match}</span>`
-                    );
-                    
-                    // Collect all highlights
-                    const highlights = cell.getElementsByClassName('highlight');
-                    matches.push(...highlights);
+                    const fragments = text.split(regex);
+                    const highlights = text.match(regex);
+
+                    // Clear cell content
+                    cell.textContent = '';
+
+                    fragments.forEach((fragment, index) => {
+                        cell.appendChild(document.createTextNode(fragment));
+                        if (index < highlights.length) {
+                            const highlightSpan = document.createElement('span');
+                            highlightSpan.className = 'highlight';
+                            highlightSpan.textContent = highlights[index];
+                            cell.appendChild(highlightSpan);
+                            matches.push(highlightSpan);
+                        }
+                    });
                 }
             });
-        
+
             updateMatchCount();
             if (matches.length > 0) {
                 goToMatch(0);
