@@ -21,7 +21,8 @@ nav:
   - Installation: installation.md
   - Usage: usage.md
   - API Reference: api.md
-  - Contributing: contributing.md
+  # Remove or ensure the file exists
+  # - Contributing: contributing.md
 
 markdown_extensions:
   - pymdownx.highlight
