@@ -31,21 +31,21 @@ Advanced network packet analysis and ARP spoofing tool built with Python. Featur
 
 ```bash
 # Clone repository
-git clone https://github.com/zeefxd/spof.git
-cd spof
+https://github.com/zeefxd/ARP-Spoofer.git
+cd ARP-Spoofer
 ```
 
-# Install dependencies
+### Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-# Run with default settings
+### Run with default settings
 ```bash
 python -m src.main
 ```
 
-💻 **Usage Examples**
+## 💻 **Usage Examples**
 
 ### Basic Monitoring:
 ```bash
@@ -67,7 +67,7 @@ python -m src.main --format json
 python -m src.main -t 192.168.1.10 -g 192.168.1.1 -p "password" "secret" -f html
 ```
 
-📋 **Command Options**
+## 📋 **Command Options**
 
 | Option       | Description           | Default       |
 |--------------|-----------------------|---------------|
@@ -76,7 +76,7 @@ python -m src.main -t 192.168.1.10 -g 192.168.1.1 -p "password" "secret" -f html
 | -p, --patterns| Search patterns      | None          |
 | -f, --format | Export format         | html          |
 
-📁 **Project Structure**
+## 📁 **Project Structure**
 ```
 src/
 ├── core/          # Core functionality
@@ -86,13 +86,13 @@ src/
 └── utils/         # Helper functions
 ```
 
-📦 **Dependencies**
+## 📦 **Dependencies**
 - scapy - Network packet manipulation
 - rich - Terminal UI components
 - netifaces - Network interface handling
 - jinja2 - Report templating
 
-🔧 **Development**
+## 🔧 **Development**
 ```bash
 # Setup development environment
 python -m venv venv
@@ -100,24 +100,23 @@ source venv/Scripts/activate  # Windows
 pip install -r requirements-dev.txt
 ```
 
-⚠️ **Security Notice**
+## ⚠️ **Security Notice**
 Educational Purposes Only: This tool should only be used on networks where you have explicit permission to test.
 
-🤝 **Contributing**
+## 🤝 **Contributing**
 1. Fork repository
 2. Create feature branch
 3. Commit changes
 4. Push to branch
 5. Submit pull request
 
-📜 **License**
+## 📜 **License**
 MIT License - See LICENSE file
 
-👤 **Author**
-@zeefxd
+## 👤 **Author**
+GitHub: [@zeefxd](https://github.com/zeefxd)
 
-GitHub: @zeefxd
-Twitter: @zeefxd
+Twitter: [@zeefxd](https://x.com/zeefxd)
 
 💬 **Support**
 Report issues on GitHub
