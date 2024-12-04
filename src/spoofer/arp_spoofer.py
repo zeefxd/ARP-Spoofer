@@ -20,7 +20,7 @@ from src.utils.logger import setup_logger
 from src.core.exceptions import NetworkException
 from src.models.models import PacketInfo, Device
 from src.utils.validators import validate_ip
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 warnings.filterwarnings("ignore")
 
@@ -175,7 +175,10 @@ class ARPSpoofer:
                     })
 
         elif format == "html":
-            env = Environment(loader=FileSystemLoader('src/utils'))
+            env = Environment(
+                loader=FileSystemLoader('src/utils'),
+                autoescape=select_autoescape(['html', 'xml'])
+            )
             template = env.get_template('report_template.html')
 
             # Enhance packet data with hostname resolution

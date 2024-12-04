@@ -1,4 +1,4 @@
-# ARP Spoofer Documentation
+# ARP Spoofer
 
 Welcome to the ARP Spoofer documentation. This tool provides advanced network packet analysis and ARP spoofing capabilities.
 
@@ -12,5 +12,4 @@ ARP Spoofer is a Python-based tool that enables:
 
 ## Quick Links
 - [Installation Guide](installation.md)
-- [Usage Guide](usage.md)
 - [API Reference](api.md)

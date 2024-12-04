@@ -149,7 +149,7 @@
     <p><strong>Gateway IP:</strong> {{ gateway_ip }}</p>
     <p><strong>Patterns:</strong> {{ patterns }}</p>
     
-    <h2>Captured Packets (Total: {{ total_packets }})</h2>
+    <h2>Captured Packets (Total: {{ total_packets | e }})</h2>
     <table>
         <tr>
             <th>Time</th>
