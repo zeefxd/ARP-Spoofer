@@ -5,6 +5,7 @@ Welcome to the ARP Spoofer documentation. This tool provides advanced network pa
 ## 📋 Overview
 
 ARP Spoofer is a Python-based tool that enables:
+
 - 🔍 Real-time packet capture and filtering
 - 📊 Pattern-based traffic monitoring
 - 🌐 MAC address resolution

