@@ -2,184 +2,480 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ARP Spoofing Session Report</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARP Spoofer - Network Analysis Report</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Reset some basic elements */
-        body, h1, h2, p, table, th, td, ul, li {
+        :root {
+            --primary-color: #6200ea;
+            --secondary-color: #b388ff;
+            --background-dark: #121212;
+            --surface-dark: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --success-color: #00e676;
+            --warning-color: #ffd740;
+            --error-color: #ff5252;
+        }
+
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            background-color: #121212;
-            color: #E0E0E0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 20px;
+            background-color: var(--background-dark);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             line-height: 1.6;
+            padding: 2rem;
         }
 
-        h1, h2 {
-            color: #BB86FC;
-            margin-bottom: 10px;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        h1 {
-            font-size: 2.5em;
+        .header {
             text-align: center;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
         }
 
-        h2 {
-            font-size: 1.8em;
-            margin-top: 30px;
-            border-bottom: 2px solid #BB86FC;
-            padding-bottom: 5px;
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        p {
-            margin-bottom: 15px;
-            font-size: 1.1em;
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+        .search-container {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--background-dark);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.8rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
         }
 
-        table {
+        .search-box {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .search-box input {
+            background: var(--surface-dark);
+            border: 1px solid var(--secondary-color);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 0.4rem;
+            min-width: 300px;
+            font-size: 1rem;
+        }
+
+        .search-box button,
+        .search-stats button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .search-box button:hover,
+        .search-stats button:hover {
+            background: var(--secondary-color);
+        }
+
+        .search-box button:disabled,
+        .search-stats button:disabled {
+            background: var(--surface-dark);
+            cursor: not-allowed;
+        }
+
+        .search-stats {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-stats span {
+            color: var(--text-secondary);
+        }
+
+        .highlight {
+            background-color: var(--warning-color);
+            color: black;
+            padding: 0.1rem 0.2rem;
+            border-radius: 0.2rem;
+        }
+
+        .highlight.current {
+            background-color: var(--success-color);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: var(--surface-dark);
+            padding: 1.5rem;
+            border-radius: 0.8rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .info-card h3 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .info-card p {
+            color: var(--text-secondary);
+        }
+
+        .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            background-color: #1A1A1A;
-            border-radius: 8px;
+            margin: 2rem 0;
+            background: var(--surface-dark);
+            border-radius: 0.8rem;
             overflow: hidden;
-            box-shadow: 0 0 10px rgba(0,0,0,0.7);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            table-layout: fixed;
         }
 
-        th, td {
-            border: 1px solid #444;
-            padding: 12px 15px;
+        .data-table th,
+        .data-table td {
+            padding: 1rem;
+            word-wrap: break-word;
+        }
+
+        .data-table th {
+            background-color: rgba(98, 0, 234, 0.2);
             text-align: left;
-            transition: background-color 0.3s;
+            font-weight: 600;
+            color: var(--secondary-color);
         }
 
-        th {
-            background-color: #2E2E2E;
-            font-size: 1.1em;
+        .data-table td {
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        tr:nth-child(even) {
-            background-color: #1E1E1E;
+        .data-table tbody tr:hover {
+            background-color: rgba(98, 0, 234, 0.1);
         }
 
-        tr:hover {
-            background-color: #333;
+        /* Column widths */
+        .data-table th:nth-child(1),
+        .data-table td:nth-child(1) {
+            width: 15%;
         }
 
-        a {
-            color: #BB86FC;
-            text-decoration: none;
-            transition: color 0.3s;
+        .data-table th:nth-child(2),
+        .data-table td:nth-child(2),
+        .data-table th:nth-child(3),
+        .data-table td:nth-child(3) {
+            width: 20%;
         }
 
-        a:hover {
-            color: #FF79C6;
-            text-decoration: underline;
+        .data-table th:nth-child(4),
+        .data-table td:nth-child(4) {
+            width: 45%;
         }
 
-        ul.summary {
-            list-style-type: none;
-            padding: 10px 20px;
-            background-color: #1E1E1E;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.7);
-            margin-top: 20px;
+        .data-table td pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-family: 'Consolas', monospace;
         }
 
-        ul.summary li {
-            padding: 8px 0;
-            font-size: 1.1em;
+        .data-table td pre::-webkit-scrollbar {
+            width: 8px;
         }
 
-        /* Footer Styling */
-        .footer {
-            margin-top: 40px;
+        .data-table td pre::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .data-table td pre::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 4px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--surface-dark);
+            padding: 1.5rem;
+            border-radius: 0.8rem;
             text-align: center;
-            font-size: 0.9em;
-            color: #777;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
-        .footer .social-icons {
-            margin-top: 10px;
+        .stat-card h4 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
         }
 
-        .footer .social-icons a {
-            margin: 0 10px;
-            color: #BB86FC;
-            font-size: 1.5em;
-            transition: color 0.3s;
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--text-primary);
         }
 
-        .footer .social-icons a:hover {
-            color: #FF79C6;
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem;
+            background: var(--surface-dark);
+            border-radius: 0.8rem;
         }
 
-        /* Responsive Design */
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--secondary-color);
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2em;
+            body {
+                padding: 1rem;
             }
 
-            h2 {
-                font-size: 1.5em;
-            }
-
-            th, td {
-                padding: 10px;
-            }
-
-            p, ul.summary li {
-                font-size: 1em;
+            .header h1 {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <h1>ARP Spoofing Session Report</h1>
-    <p><strong>Timestamp:</strong> {{ timestamp }}</p>
-    <p><strong>Target IP:</strong> {{ target_ip }}</p>
-    <p><strong>Gateway IP:</strong> {{ gateway_ip }}</p>
-    <p><strong>Patterns:</strong> {{ patterns }}</p>
-    
-    <h2>Captured Packets (Total: {{ total_packets | e }})</h2>
-    <table>
-        <tr>
-            <th>Time</th>
-            <th>Source</th>
-            <th>Destination</th>
-            <th>Payload</th>
-        </tr>
-        {% for packet in packets %}
-        <tr>
-            <td>{{ packet.time }}</td>
-            <td>{{ packet.src }} ({{ packet.src_hostname }})</td>
-            <td>{{ packet.dst }} ({{ packet.dst_hostname }})</td>
-            <td>{{ packet.payload }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="container">
+        <div class="header">
+            <h1>Network Analysis Report</h1>
+            <p>ARP Spoofing Session Details</p>
+        </div>
 
-    <h2>Summary</h2>
-    <ul class="summary">
-        <li><strong>Total Captured Packets:</strong> {{ total_packets }}</li>
-        <li><strong>Unique Source IPs:</strong> {{ unique_sources }}</li>
-        <li><strong>Unique Destination IPs:</strong> {{ unique_destinations }}</li>
-    </ul>
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search in report... (Ctrl+F)">
+                <button onclick="search()"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="search-stats">
+                <span id="matchCount">0 matches</span>
+                <button onclick="previousMatch()" id="prevBtn" disabled><i class="fas fa-chevron-up"></i></button>
+                <button onclick="nextMatch()" id="nextBtn" disabled><i class="fas fa-chevron-down"></i></button>
+            </div>
+        </div>
 
-    <div class="footer">
-        <p>Generated by ARP Spoofing Tool | Author: <a href="https://github.com/zeefxd">@zeefxd</a></p>
-        <div class="social-icons">
-            <a href="https://github.com/zeefxd" target="_blank"><i class="fab fa-github"></i></a>
-            <a href="https://twitter.com/zeefxd" target="_blank"><i class="fab fa-twitter"></i></a>
+        <div class="info-grid">
+            <div class="info-card">
+                <h3><i class="fas fa-clock"></i> Session Time</h3>
+                <p>{{ timestamp }}</p>
+            </div>
+            <div class="info-card">
+                <h3><i class="fas fa-crosshairs"></i> Target IP</h3>
+                <p>{{ target_ip }}</p>
+            </div>
+            <div class="info-card">
+                <h3><i class="fas fa-network-wired"></i> Gateway IP</h3>
+                <p>{{ gateway_ip }}</p>
+            </div>
+            <div class="info-card">
+                <h3><i class="fas fa-filter"></i> Search Patterns</h3>
+                <p>{{ patterns }}</p>
+            </div>
+        </div>
+
+        <table class="data-table">
+            <colgroup>
+                <col style="width: 15%">
+                <col style="width: 20%">
+                <col style="width: 20%">
+                <col style="width: 45%">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Payload</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for packet in packets %}
+                <tr>
+                    <td>{{ packet.time }}</td>
+                    <td>{{ packet.src }} {% if packet.src_hostname %}({{ packet.src_hostname }}){% endif %}</td>
+                    <td>{{ packet.dst }} {% if packet.dst_hostname %}({{ packet.dst_hostname }}){% endif %}</td>
+                    <td><pre>{{ packet.payload | e }}</pre></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <h4>Total Packets</h4>
+                <div class="value">{{ total_packets }}</div>
+            </div>
+            <div class="stat-card">
+                <h4>Unique Sources</h4>
+                <div class="value">{{ unique_sources }}</div>
+            </div>
+            <div class="stat-card">
+                <h4>Unique Destinations</h4>
+                <div class="value">{{ unique_destinations }}</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Generated by ARP Spoofing Tool | Author: <a href="https://github.com/zeefxd" style="color: #b388ff;">@zeefxd</a></p>
+            <div class="social-links">
+                <a href="https://github.com/zeefxd" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://twitter.com/zeefxd" target="_blank"><i class="fab fa-twitter"></i></a>
+            </div>
         </div>
     </div>
-</body>
+    <script>
+        let currentMatchIndex = -1;
+        let matches = [];
+        
+        function search() {
+            // Reset previous search
+            clearHighlights();
+            matches = [];
+            currentMatchIndex = -1;
+            
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            if (!searchText) return;
+        
+            const content = document.querySelectorAll('.data-table td');
+            
+            content.forEach(cell => {
+                const text = cell.innerText.toLowerCase();
+                if (text.includes(searchText)) {
+                    const regex = new RegExp(searchText, 'gi');
+                    cell.innerHTML = cell.innerText.replace(regex, match => 
+                        `<span class="highlight">${match}</span>`
+                    );
+                    
+                    // Collect all highlights
+                    const highlights = cell.getElementsByClassName('highlight');
+                    matches.push(...highlights);
+                }
+            });
+        
+            updateMatchCount();
+            if (matches.length > 0) {
+                goToMatch(0);
+            }
+        }
+        
+        function clearHighlights() {
+            const highlights = document.getElementsByClassName('highlight');
+            while (highlights.length > 0) {
+                const parent = highlights[0].parentNode;
+                parent.innerHTML = parent.innerText;
+            }
+        }
+        
+        function updateMatchCount() {
+            const count = matches.length;
+            document.getElementById('matchCount').textContent = 
+                `${count} match${count !== 1 ? 'es' : ''}`;
+            document.getElementById('prevBtn').disabled = count === 0;
+            document.getElementById('nextBtn').disabled = count === 0;
+        }
+        
+        function goToMatch(index) {
+            if (matches.length === 0) return;
+            
+            // Remove current highlight
+            if (currentMatchIndex !== -1) {
+                matches[currentMatchIndex].classList.remove('current');
+            }
+            
+            currentMatchIndex = index;
+            const match = matches[currentMatchIndex];
+            match.classList.add('current');
+            match.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function nextMatch() {
+            if (currentMatchIndex < matches.length - 1) {
+                goToMatch(currentMatchIndex + 1);
+            } else {
+                goToMatch(0);
+            }
+        }
+        
+        function previousMatch() {
+            if (currentMatchIndex > 0) {
+                goToMatch(currentMatchIndex - 1);
+            } else {
+                goToMatch(matches.length - 1);
+            }
+        }
+        
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'f') {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+            if (e.key === 'Enter') {
+                search();
+            }
+            if (e.key === 'F3') {
+                e.preventDefault();
+                if (e.shiftKey) {
+                    previousMatch();
+                } else {
+                    nextMatch();
+                }
+            }
+        });
+        </script>
+    </body>
 </html>

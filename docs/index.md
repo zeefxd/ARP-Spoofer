@@ -12,4 +12,5 @@ ARP Spoofer is a Python-based tool that enables:
 
 ## Quick Links
 - [Installation Guide](installation.md)
+- [Usage Guide](usage.md)
 - [API Reference](api.md)

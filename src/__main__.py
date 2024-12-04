@@ -1,5 +1,6 @@
 import argparse
 import sys
+import os
 from rich.console import Console
 from src.spoofer.arp_spoofer import ARPSpoofer
 from src.utils.validators import validate_ip
@@ -11,8 +12,17 @@ Main entry point for the ARP spoofer application.
 Usage:
     python -m src.main [-t TARGET_IP] [-g GATEWAY_IP] [-p PATTERNS] [-f FORMAT]
 """
+def clear_console():
+    """Clear the console screen."""
+    # For Windows
+    if os.name == 'nt':
+        os.system('cls')
+    # For Unix/Linux/MacOS
+    else:
+        os.system('clear')
 
 def main():
+    clear_console()
     console = Console()
     logger = setup_logger("arp_spoofer_main", console)
 
