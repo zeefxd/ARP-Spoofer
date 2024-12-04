@@ -12,16 +12,22 @@ jobs:
   build-docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
         with:
           python-version: '3.10'
+
       - name: Install dependencies
         run: |
           pip install mkdocs mkdocs-material pdoc3
           pip install -r requirements.txt
+
       - name: Build MkDocs
         run: mkdocs gh-deploy --force
+
       - name: Build API docs
         run: |
           pdoc --html --output-dir docs/api src/
