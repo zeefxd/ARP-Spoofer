@@ -1,3 +1,5 @@
+"""Custom exceptions for the ARP spoofer application."""
+
 class SpooferException(Exception):
     """Base exception for the spoofer module."""
     pass

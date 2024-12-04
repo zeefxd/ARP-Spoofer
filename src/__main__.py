@@ -5,6 +5,13 @@ from src.spoofer.arp_spoofer import ARPSpoofer
 from src.utils.validators import validate_ip
 from src.utils.logger import setup_logger
 
+"""
+Main entry point for the ARP spoofer application.
+
+Usage:
+    python -m src.main [-t TARGET_IP] [-g GATEWAY_IP] [-p PATTERNS] [-f FORMAT]
+"""
+
 def main():
     console = Console()
     logger = setup_logger("arp_spoofer_main", console)
