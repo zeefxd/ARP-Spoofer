@@ -1,4 +1,4 @@
-echo "pytest
+pytest
 pytest-cov
 flake8
 black
@@ -6,4 +6,5 @@ isort
 mypy
 mkdocs
 mkdocs-material
-pdoc3" > requirements-dev.txt
+pdoc3
+mkdocstrings
