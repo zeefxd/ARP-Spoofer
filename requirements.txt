@@ -2,14 +2,6 @@ pytest
 pytest-cov
 pytest-mock
 scapy
-flake8
-black
-isort
-mypy
-mkdocs
-mkdocs-material
-pdoc3
 rich
 netifaces
 jinja2
-mkdocstrings
