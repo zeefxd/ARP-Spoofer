@@ -23,5 +23,4 @@ source venv/bin/activate  # Linux/macOS
 venv\Scripts\activate     # Windows
 
 # Install dependencies
-pip install -r [requirements.txt](http://_vscodecontentref_/2)
 pip install -r requirements-dev.txt
