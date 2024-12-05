@@ -27,6 +27,33 @@ Advanced network packet analysis and ARP spoofing tool built with Python. Featur
 - CSV compatibility
 - Plain text logs
 
+## 🖥️ Screenshots
+
+### ARP Spoofing Tool in Action
+
+![Application Running](https://github.com/user-attachments/assets/338cf463-e9d3-4b49-8980-c1c21bad3036)
+
+*Initializes the tool and displays the status of the ARP spoofing attack.*
+
+### Packet Capture Overview
+
+![Packet Capture](https://github.com/user-attachments/assets/7f34867a-d088-4ce1-9ded-ec7c595651f1)
+
+*Real-time packet capture showing intercepted network packets with source and destination details.*
+
+### Export Format Options
+
+![Export Format Options](https://github.com/user-attachments/assets/dd164e81-62ff-4596-b2ba-196689833d78)
+
+*Options for exporting captured data in various formats such as HTML, JSON, CSV, and plain text.*
+
+### HTML Report
+
+![HTML Report](https://github.com/user-attachments/assets/177ac313-68b5-49df-b5fd-2d993401ef5a)
+
+*Generated HTML report providing a detailed analysis of the captured packets.*
+
+
 ## 🚀 Quick Start
 
 ```bash
