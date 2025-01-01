@@ -39,7 +39,7 @@ Advanced network packet analysis and ARP spoofing tool built with Python. Featur
 
 ![Packet Capture](https://github.com/user-attachments/assets/7f34867a-d088-4ce1-9ded-ec7c595651f1)
 
-*Real-time packet capture showing intercepted network packets with source and destination details.*
+*Real-time packet capture showing intercepted network packets with source and destination details. (Press **Ctrl+C** to stop packet capturing)* 
 
 ### Export Format Options
 
