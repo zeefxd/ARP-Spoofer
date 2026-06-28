@@ -1,36 +1,33 @@
-# ARP Spoofing Tool 🌐
+# ARP Spoofing Tool
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.8+-orange.svg)
 ![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
 
-## 🎯 Overview
+## Overview
 Advanced network packet analysis and ARP spoofing tool built with Python. Featuring pattern matching, real-time monitoring, and beautiful reporting interfaces.
 
-## ✨ Key Features
+## Key Features
 
-🔍 **Network Analysis**
+**Network Analysis**
 - Real-time packet capture and filtering
 - Pattern-based traffic monitoring
 - MAC address resolution
 - Hostname detection
 
-🛡️ **ARP Operations**
+**ARP Operations**
 - Smart gateway detection
 - Target device mapping
 - Traffic interception
 - Custom packet rules
 
-📊 **Reporting & Export**
+**Reporting & Export**
 - Interactive HTML reports
 - JSON data export
 - CSV compatibility
 - Plain text logs
 
-## 🖥️ Screenshots
-
-### ARP Spoofing Tool in Action
-
+## Screenshots
 ![Application Running](https://github.com/user-attachments/assets/338cf463-e9d3-4b49-8980-c1c21bad3036)
 
 *Initializes the tool and displays the status of the ARP spoofing attack.*
@@ -54,7 +51,7 @@ Advanced network packet analysis and ARP spoofing tool built with Python. Featur
 *Generated HTML report providing a detailed analysis of the captured packets.*
 
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 # Clone repository
@@ -76,9 +73,9 @@ sudo python -m src
 python -m src
 ```
 
-> ⚠️ **Note**: Root/Administrator privileges are required for network operations
+> **Note**: Root/Administrator privileges are required for network operations
 
-## 💻 **Usage Examples**
+## **Usage Examples**
 
 ### Basic Monitoring:
 ```bash
@@ -116,7 +113,7 @@ sudo python -m src -t 192.168.1.10 -g 192.168.1.1 -p "password" "secret" -f html
 python -m src -t 192.168.1.10 -g 192.168.1.1 -p "password" "secret" -f html
 ```
 
-## 📋 **Command Options**
+## **Command Options**
 
 | Option       | Description           | Default       |
 |--------------|-----------------------|---------------|
@@ -125,7 +122,7 @@ python -m src -t 192.168.1.10 -g 192.168.1.1 -p "password" "secret" -f html
 | -p, --patterns| Search patterns      | None          |
 | -f, --format | Export format         | html          |
 
-## 📁 **Project Structure**
+## **Project Structure**
 ```
 src/
 ├── core/          # Core functionality
@@ -135,13 +132,13 @@ src/
 └── utils/         # Helper functions
 ```
 
-## 📦 **Dependencies**
+## **Dependencies**
 - scapy - Network packet manipulation
 - rich - Terminal UI components
 - netifaces - Network interface handling
 - jinja2 - Report templating
 
-## 🔧 **Development**
+## **Development**
 ```bash
 # Setup development environment
 python -m venv venv
@@ -149,23 +146,17 @@ source venv/Scripts/activate  # Windows
 pip install -r requirements-dev.txt
 ```
 
-## ⚠️ **Security Notice**
-Educational Purposes Only: This tool should only be used on networks where you have explicit permission to test.
-
-## 🤝 **Contributing**
+## **Contributing**
 1. Fork repository
 2. Create feature branch
 3. Commit changes
 4. Push to branch
 5. Submit pull request
 
-## 📜 **License**
+## **License**
 MIT License - See LICENSE file
 
-## 👤 **Author**
+## **Author**
 GitHub: [@zeefxd](https://github.com/zeefxd)
 
 Twitter: [@zeefxd](https://x.com/zeefxd)
-
-💬 **Support**
-Report issues on GitHub
